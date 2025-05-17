@@ -1,2 +1,4 @@
-uploads/
-clips/
+    node_modules/
+    uploads/
+    clips/
+    client/node_modules/
