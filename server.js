@@ -96,10 +96,14 @@ const hasEnoughStorage = (newFileSize) => {
 // Function to clean up files and kill process
 const cleanupProcess = (requestId) => {
   if (activeProcesses.has(requestId)) {
-    const { process } = activeProcesses.get(requestId);
-    if (process && process.kill) {
-      process.kill('SIGKILL');
-      console.log(`Killed FFmpeg process for request ${requestId}`);
+    const { processes } = activeProcesses.get(requestId);
+    if (processes && processes.length) {
+      processes.forEach(proc => {
+        if (proc && proc.kill) {
+          proc.kill('SIGKILL');
+        }
+      });
+      console.log(`Killed all FFmpeg processes for request ${requestId}`);
     }
     activeProcesses.delete(requestId);
     console.log(`Cleaned up process for request ${requestId}`);
@@ -341,11 +345,10 @@ app.post('/upload', upload.single('video'), async (req, res) => {
             ])
             .output(outputPath);
 
-          // Store the process and its associated files
-          activeProcesses.set(requestId, {
-            process: command,
-            files: Array.from(filesToCleanup)
-          });
+          const processEntry = activeProcesses.get(requestId);
+          if (processEntry) {
+            processEntry.processes.push(command);
+          }
 
           command
             .on('start', (commandLine) => {
