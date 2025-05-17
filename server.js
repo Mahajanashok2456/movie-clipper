@@ -1,3 +1,5 @@
+console.log('Server.js is starting...');
+
 const express = require('express');
 const multer = require('multer');
 const ffmpeg = require('fluent-ffmpeg');
