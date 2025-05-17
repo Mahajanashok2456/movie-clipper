@@ -119,7 +119,7 @@ function App() {
           ...clip,
           part: index + 1,
           filename: `part${index + 1}.mp4`,
-          url: `http://localhost:5000/clips/${response.data.project}/part${index + 1}.mp4`
+          url: `/clips/${response.data.project}/part${index + 1}.mp4`
         })));
         setTimeLeft(5 * 60); // Reset to 5 minutes
 

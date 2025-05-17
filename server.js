@@ -196,7 +196,7 @@ app.post('/upload', upload.single('video'), async (req, res) => {
     .map(f => parseInt(f.split(' ')[1]))
     .filter(n => !isNaN(n));
   const nextProjectNum = existingProjects.length > 0 ? Math.max(...existingProjects) + 1 : 1;
-  const projectFolder = `project ${nextProjectNum}`;
+  const projectFolder = `project_${nextProjectNum}`;
   const projectPath = path.join(clipsDir, projectFolder);
   if (!fs.existsSync(projectPath)) fs.mkdirSync(projectPath);
 
