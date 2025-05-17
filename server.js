@@ -96,19 +96,11 @@ const hasEnoughStorage = (newFileSize) => {
 // Function to clean up files and kill process
 const cleanupProcess = (requestId) => {
   if (activeProcesses.has(requestId)) {
-    const { process, files } = activeProcesses.get(requestId);
-    
-    // Kill the FFmpeg process
-    try {
-      if (process && process.kill) {
-        process.kill('SIGKILL');
-        console.log(`Killed FFmpeg process for request ${requestId}`);
-      }
-    } catch (err) {
-      console.error('Error killing process:', err);
+    const { process } = activeProcesses.get(requestId);
+    if (process && process.kill) {
+      process.kill('SIGKILL');
+      console.log(`Killed FFmpeg process for request ${requestId}`);
     }
-
-    // Remove from active processes
     activeProcesses.delete(requestId);
     console.log(`Cleaned up process for request ${requestId}`);
   }
