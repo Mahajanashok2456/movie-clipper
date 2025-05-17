@@ -101,7 +101,7 @@ function App() {
     setCancelToken(source);
 
     try {
-      const response = await axios.post('http://localhost:5000/upload', formData, {
+      const response = await axios.post('/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
