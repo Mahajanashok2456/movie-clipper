@@ -191,6 +191,7 @@ const cleanupOldFiles = () => {
 
 // Process video endpoint
 app.post('/upload', upload.single('video'), async (req, res) => {
+  console.log('Received /upload request');
   // Find the next project number
   const existingProjects = fs.readdirSync(clipsDir)
     .filter(f => /^project \d+$/.test(f))
@@ -515,6 +516,14 @@ process.on('uncaughtException', (err) => {
 });
 process.on('unhandledRejection', (reason, promise) => {
   console.error('Unhandled Rejection:', reason);
+});
+
+ffmpeg.getAvailableFormats(function(err, formats) {
+  if (err) {
+    console.error('FFmpeg is NOT available:', err);
+  } else {
+    console.log('FFmpeg is available!');
+  }
 });
 
 app.listen(port, () => {
